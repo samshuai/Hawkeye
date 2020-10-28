@@ -233,7 +233,7 @@ def is_ip(ip):
 def send_mail(content):
     smtp_config = setting_col.find_one({'key': 'mail'})
     receivers = [data.get('mail') for data in notice_col.find({})]
-    elementcmd = 'kmg imu zengshuai ' + content
+    elementcmd = 'kmg imu zengshuai \'[GitHub警告]<br />' + content + '\''
     try:
         if mail_notice(smtp_config, receivers, content):
             logger.info('邮件发送成功')
