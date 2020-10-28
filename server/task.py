@@ -233,14 +233,19 @@ def is_ip(ip):
 def send_mail(content):
     smtp_config = setting_col.find_one({'key': 'mail'})
     receivers = [data.get('mail') for data in notice_col.find({})]
+    elementcmd = 'kmg imu zengshuai ' + content
     try:
         if mail_notice(smtp_config, receivers, content):
             logger.info('邮件发送成功')
         else:
             logger.critical('Error: 无法发送邮件')
-
     except smtplib.SMTPException as error:
         logger.critical('Error: 无法发送邮件 {}'.format(error))
+    try:
+        if os.system(elementcmd):
+            logger.info('element 信息发送成功')
+        else:
+            loger.critical('Error: element信息发送失败')
 
 
 @huey.periodic_task(crontab(minute='*/2'))
