@@ -10,7 +10,7 @@
             </el-form-item>
             <el-form-item label="token">
                 <el-input size="mini"
-                          v-model="formInline.password" placeholder="token"></el-input>
+                          v-model="formInline.token" placeholder="token"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button size="mini"
@@ -71,7 +71,8 @@
             addGithubAccount() {
                 if (
                     this.formInline.hasOwnProperty("password") ||
-                    this.formInline.hasOwnProperty("username")
+                    this.formInline.hasOwnProperty("username") ||
+                    this.formInline.hasOwnProperty("token")
                 ) {
                     this.axios
                         .post(this.api.settingGithub, this.formInline)
