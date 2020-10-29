@@ -8,6 +8,10 @@
                 <el-input size="mini"
                           v-model="formInline.password" placeholder="密码"></el-input>
             </el-form-item>
+            <el-form-item label="token">
+                <el-input size="mini"
+                          v-model="formInline.password" placeholder="token"></el-input>
+            </el-form-item>
             <el-form-item>
                 <el-button size="mini"
                            type="primary" @click="addGithubAccount">添加

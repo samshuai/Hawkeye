@@ -69,12 +69,14 @@ class GithubAccount(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('username', type=str, help='')
         parser.add_argument('password', type=str, help='')
+        parser.add_argument('token', type=str, help='')
         args = parser.parse_args()
         username = args.get('username')
         password = args.get('password')
+        token = args.get('token')
         try:
-            g = Github(username, password)
-            github_col.save({'_id': md5(username), 'username': username, 'password': password,
+            g = Github(token)
+            github_col.save({'_id': md5(username), 'username': username, 'password': password,'token': token,
                              'mask_password': password.replace(''.join(password[2:-2]), '****'), 'addat': timestamp(),
                              'rate_limit': int(g.get_rate_limit().search.limit),
                              'rate_remaining': int(g.get_rate_limit().search.remaining)})
