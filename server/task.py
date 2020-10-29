@@ -233,11 +233,12 @@ def is_ip(ip):
 def send_mail(content):
     smtp_config = setting_col.find_one({'key': 'mail'})
     receivers = [data.get('mail') for data in notice_col.find({})]
-    elementcmd = 'kmg imu zengshuai \'[GitHub警告]<br />' + content + '\''
+    elementcmd = "kmg imu zengshuai \'[GitHub警告]<br />" + content + "\'"
     try:
         if mail_notice(smtp_config, receivers, content):
             logger.info('邮件发送成功')
         else:
+            os.system("kmg imu zengshuai 'haweye email Error'")
             logger.critical('Error: 无法发送邮件')
     except smtplib.SMTPException as error:
         logger.critical('Error: 无法发送邮件 {}'.format(error))
@@ -245,6 +246,7 @@ def send_mail(content):
         if os.system(elementcmd):
             logger.info('element 信息发送成功')
         else:
+            os.system("kmg imu zengshuai 'haweye element Error'")
             loger.critical('Error: element信息发送失败')
 
 
@@ -271,7 +273,8 @@ def new_github():
     github_account = random.choice(list(github_col.find({"rate_limit": {"$gt": 5}}).sort('rate_remaining', DESCENDING)))
     github_username = github_account.get('username')
     github_password = github_account.get('password')
-    g = Github(github_username, github_password)
+    github_token = github_account.get('token')
+    g = Github(github_username, github_password,github_token)
     return g, github_username
 
 
@@ -300,10 +303,11 @@ def check():
                     list(github_col.find({"rate_limit": {"$gt": 5}}).sort('rate_remaining', DESCENDING)))
                 github_username = github_account.get('username')
                 github_password = github_account.get('password')
+                github_token = github_account.get('token')
                 rate_remaining = github_account.get('rate_remaining')
                 logger.info(github_username)
                 logger.info(rate_remaining)
-                g = Github(github_username, github_password,
+                g = Github(github_username, github_token,
                            user_agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36')
                 search.schedule(args=(query, p, g, github_username),
                                 delay=huey.pending_count() + huey.scheduled_count())
