@@ -274,7 +274,7 @@ def new_github():
     github_username = github_account.get('username')
     github_password = github_account.get('password')
     github_token = github_account.get('token')
-    g = Github(github_username, github_password,github_token)
+    g = Github(github_username, github_token)
     return g, github_username
 
 
